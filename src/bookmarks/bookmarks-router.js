@@ -2,11 +2,10 @@
 
 const express = require('express');
 const {v4: uuid} = require('uuid');
-const logger = require('logger');
-const {bookmarks} = require('../store'); 
+const logger = require('../logger');
+const { bookmarks } = require('../store'); 
 const bookmarksRouter = express.Router();
 const bodyParser = express.json();
-
 
 
 bookmarksRouter
@@ -41,6 +40,8 @@ bookmarksRouter
       .json(newBookmark);
     //form validation goes here   
   });
+
+
 bookmarksRouter
   .route('/bookmarks/:id')
   .get((req,res) => {
@@ -56,6 +57,21 @@ bookmarksRouter
     res.json(bookmark);
   })
   .delete((req,res) => {
-    //form validation goes here
+    const { id } = req.params;
+    const bookmarkIndex = bookmarks.findIndex(b => b.id == id)
+
+    if(bookmarkIndex === -1) {
+      logger.error(`Bookmark with id ${id} not found`);
+      return res
+        .status(404)
+        .send('Bookmark Not Found');
+    }
+
+    bookmarks.splice(bookmarkIndex, 1);
+
+    logger.info(`Bookmark with ${id} deleted`);
+    res
+      .status(204)
+      .end();
   });
 module.exports = bookmarksRouter;
