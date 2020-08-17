@@ -1,1 +1,10 @@
 {"message":"Bookmark with id 5 not found.","level":"error"}
+{"message":"Title is required.","level":"error"}
+{"message":"Bookmark with 5328d781-556d-43db-a3a8-f354b09d0b1d deleted","level":"info"}
+{"message":"Bookmark with c59e74e1-f647-4aa0-92d8-1d1e565a0f7c deleted","level":"info"}
+{"message":"Bookmark with 0e4714bc-b943-4c9b-ad78-435bda841624 deleted","level":"info"}
+{"message":"Bookmark with b7838702-d6f7-4a55-a6e8-350f7525da3b deleted","level":"info"}
+{"message":"Bookmark with 672dd1d8-d427-46f6-869a-22b8e615ca09 deleted","level":"info"}
+{"message":"Title is required.","level":"error"}
+{"message":"Content is required.","level":"error"}
+{"message":"Content is required.","level":"error"}

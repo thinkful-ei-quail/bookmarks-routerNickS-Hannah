@@ -23,7 +23,7 @@ bookmarksRouter
         .send('Title is required.');
     }
     if(!content) {
-      logger.error(`Content with id ${id} not found.`);
+      logger.error(`Content is required.`);
       return res
         .status(404)
         .send('Content is required.');
