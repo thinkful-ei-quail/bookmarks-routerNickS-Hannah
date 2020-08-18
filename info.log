@@ -8,3 +8,11 @@
 {"message":"Title is required.","level":"error"}
 {"message":"Content is required.","level":"error"}
 {"message":"Content is required.","level":"error"}
+{"message":"Description is required.","level":"error"}
+{"message":"URL is required.","level":"error"}
+{"message":"Title is required.","level":"error"}
+{"message":"Rating is required.","level":"error"}
+{"message":"Bookmark with 2d2807a1-ad4e-44f8-a72d-25bb7eb0974c deleted","level":"info"}
+{"message":"Bookmark with id 2d2807a1-ad4e-44f8-a72d-25bb7eb0974c not found","level":"error"}
+{"message":"Bookmark with 5182b636-d70d-4bb4-a899-cdb4dace88b6 deleted","level":"info"}
+{"message":"Bookmark with id 5182b636-d70d-4bb4-a899-cdb4dace88b6 not found.","level":"error"}

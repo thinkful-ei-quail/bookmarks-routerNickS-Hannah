@@ -15,24 +15,38 @@ bookmarksRouter
       .json(bookmarks);
   })
   .post(bodyParser,(req,res)=> {
-    const {title, content} = req.body;
+    const {title, url, description, rating} = req.body;
     if(!title) {
       logger.error('Title is required.');
       return res
         .status(404)
         .send('Title is required.');
     }
-    if(!content) {
-      logger.error(`Content is required.`);
+    if(!description) {
+      logger.error(`Description is required.`);
       return res
         .status(404)
-        .send('Content is required.');
+        .send('Description is required.');
+    }
+    if(!url) {
+      logger.error(`URL is required.`);
+      return res
+        .status(404)
+        .send('URL is required.');
+    }
+    if(!rating) {
+      logger.error(`Rating is required.`);
+      return res
+        .status(404)
+        .send('Rating is required.');
     }
     const id = uuid();
     const newBookmark = {
       id,
       title,
-      content
+      url,
+      description,
+      rating
     };
     bookmarks.push(newBookmark);
     res.status(201)
