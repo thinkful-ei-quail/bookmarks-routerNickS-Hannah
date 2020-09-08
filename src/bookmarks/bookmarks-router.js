@@ -1,91 +1,107 @@
-'use strict';
-
+const path = require('path')
 const express = require('express');
-const {v4: uuid} = require('uuid');
 const logger = require('../logger');
-const { bookmarks } = require('../store'); 
+const xss = require('xss');
+const BookmarksService = require('./bookmarks-service');
+const { getBookmarkValidationError } = require('./bookmark-validator')
+
 const bookmarksRouter = express.Router();
 const bodyParser = express.json();
 
+const serializeBookmark = bookmark => ({
+  id: bookmark.id,
+  title: xss(bookmark.title),
+  url: bookmark.url,
+  description: xss(bookmark.description),
+  rating: Number(bookmark.rating),
+})
+
 
 bookmarksRouter
-  .route('/bookmarks')
-  .get((req,res) => {
-    res
-      .json(bookmarks);
+  .route('/')
+  .get((req, res, next) => {
+    const knexInstance = req.app.get('db');
+    BookmarksService.getAllBookmarks(knexInstance)
+      .then(bookmarks => {
+        res.json(bookmarks.map(serializeBookmark))
+      })
+      .catch(next)
   })
-  .post(bodyParser,(req,res)=> {
-    const {title, url, description, rating} = req.body;
-    if(!title) {
-      logger.error('Title is required.');
-      return res
-        .status(404)
-        .send('Title is required.');
+  .post(bodyParser,(req,res, next) => {
+    const { title, url, description, rating } = req.body 
+    const newBookmark = { title, url, description, rating }
+
+    for(const field of ['title', 'url', 'rating']) {
+      if(!req.body[field]) {
+        logger.error(`${field} is required`)
+        return res.status(400).send({
+          error: { message: `'${field}' is required` }
+        })
+      }
     }
-    if(!description) {
-      logger.error(`Description is required.`);
-      return res
-        .status(404)
-        .send('Description is required.');
-    }
-    if(!url) {
-      logger.error(`URL is required.`);
-      return res
-        .status(404)
-        .send('URL is required.');
-    }
-    if(!rating) {
-      logger.error(`Rating is required.`);
-      return res
-        .status(404)
-        .send('Rating is required.');
-    }
-    const id = uuid();
-    const newBookmark = {
-      id,
-      title,
-      url,
-      description,
-      rating
-    };
-    bookmarks.push(newBookmark);
-    res.status(201)
-      .location(`http://localhost:8000/bookmarks/${id}`)
-      .json(newBookmark);
-    //form validation goes here   
+    const error = getBookmarkValidationError(bookmark)
+    if(error) return res.status(400).send(error)
+
+    const ratingNum = Number(rating);
+
+    BookmarksService.insertBookmark(
+      req.app.get('db'),
+      newBookmark
+    )
+      .then(bookmark => {
+        logger.info(`Bookmark with ${bookmark.id} created.`)
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `${bookmark.id}`))
+          .json(serializeBookmark(bookmark))
+      })
+      .catch(next)
   });
 
 
 bookmarksRouter
-  .route('/bookmarks/:id')
+  .route('/:bookmark_id')
+  .all((req, res, next) => {
+    const knexInstance = req.app.get('db');
+    const { bookmark_id } = req.params;
+    BookmarksService.getById(knexInstance, bookmark_id)
+      .then(bookmark => {
+        if(!bookmark) {
+          logger.error(`Bookmark with id ${bookmark_id} not found.`)
+          return res.status(404).json({
+            error: { message: `Bookmark Not Found`}
+          })
+        }
+        res.bookmark = bookmark;
+        next()
+      })
+      .catch(next)
+  })
   .get((req,res) => {
-    const {id} = req.params;
-    // eslint-disable-next-line eqeqeq
-    const bookmark = bookmarks.find(b => b.id == id);
-    if (!bookmark) {
-      logger.error(`Bookmark with id ${id} not found.`);
-      return res
-        .status(404)
-        .send('Bookmark not found');
-    }
-    res.json(bookmark);
+    res.json(serializeBookmark(res.bookmark))
   })
   .delete((req,res) => {
-    const { id } = req.params;
-    const bookmarkIndex = bookmarks.findIndex(b => b.id == id)
+    const { bookmark_id } = req.params
+    BookmarksService.deleteBookmark(req.app.get('db'), bookmark_id)
+      .then(numRowsAffected => {
+        logger.info(`Bookmark with ${req.params.bookmark_id} deleted.`)
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .patch(bodyParser, (req, res, next) => {
+    const { title, url, description, rating } = req.body
+    const bookmarkToUpdate = { title, url, description, rating }
 
-    if(bookmarkIndex === -1) {
-      logger.error(`Bookmark with id ${id} not found`);
-      return res
-        .status(404)
-        .send('Bookmark Not Found');
+    const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length
+    if(numberOfValues === 0) {
+      logger.error(`Invalid update without required fields`)
+      return res.status(400).json({
+        error: {
+          message: `Request body must contain either 'title', 'url', 'description', or 'rating'`
+        }
+      })
     }
+  })
 
-    bookmarks.splice(bookmarkIndex, 1);
-
-    logger.info(`Bookmark with ${id} deleted`);
-    res
-      .status(204)
-      .end();
-  });
 module.exports = bookmarksRouter;
