@@ -6,7 +6,7 @@ const BookmarksService = require('./bookmarks-service');
 const { getBookmarkValidationError } = require('./bookmark-validator')
 
 const bookmarksRouter = express.Router();
-const bodyParser = express.json();
+const jsonParser = express.json();
 
 const serializeBookmark = bookmark => ({
   id: bookmark.id,
@@ -27,22 +27,21 @@ bookmarksRouter
       })
       .catch(next)
   })
-  .post(bodyParser,(req,res, next) => {
-    const { title, url, description, rating } = req.body 
+  .post(jsonParser, (req, res, next) => {
+    const { title, url, description, rating } = req.body
     const newBookmark = { title, url, description, rating }
 
-    for(const field of ['title', 'url', 'rating']) {
-      if(!req.body[field]) {
-        logger.error(`${field} is required`)
+    for (const field of ['title', 'url', 'rating', 'description']) {
+      if (!req.body[field]) {
+        logger.error(`Missing '${field}' in request body`)
         return res.status(400).send({
-          error: { message: `'${field}' is required` }
+          error: { message: `Missing '${field}' in request body` }
         })
       }
     }
-    const error = getBookmarkValidationError(bookmark)
-    if(error) return res.status(400).send(error)
 
-    const ratingNum = Number(rating);
+    const error = getBookmarkValidationError(newBookmark)
+    if(error) return res.status(400).send(error)
 
     BookmarksService.insertBookmark(
       req.app.get('db'),
@@ -52,7 +51,7 @@ bookmarksRouter
         logger.info(`Bookmark with ${bookmark.id} created.`)
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `${bookmark.id}`))
+          .location(path.posix.join(req.originalUrl, `/${bookmark.id}`))
           .json(serializeBookmark(bookmark))
       })
       .catch(next)
@@ -62,46 +61,73 @@ bookmarksRouter
 bookmarksRouter
   .route('/:bookmark_id')
   .all((req, res, next) => {
-    const knexInstance = req.app.get('db');
-    const { bookmark_id } = req.params;
-    BookmarksService.getById(knexInstance, bookmark_id)
+    const { bookmark_id } = req.params
+    const knexInstance = req.app.get('db')
+
+    BookmarksService.getById(
+      knexInstance,
+      bookmark_id
+    )
       .then(bookmark => {
-        if(!bookmark) {
+        if (!bookmark) {
           logger.error(`Bookmark with id ${bookmark_id} not found.`)
           return res.status(404).json({
-            error: { message: `Bookmark Not Found`}
+            error: { message: `Bookmark Not Found` }
           })
         }
-        res.bookmark = bookmark;
+        res.bookmark = bookmark
         next()
       })
       .catch(next)
   })
-  .get((req,res) => {
+  .get((req, res, next) => {
     res.json(serializeBookmark(res.bookmark))
   })
-  .delete((req,res) => {
+  .delete((req, res, next) => {
     const { bookmark_id } = req.params
-    BookmarksService.deleteBookmark(req.app.get('db'), bookmark_id)
+    const knexInstance = req.app.get('db')
+
+    BookmarksService.deleteBookmark(
+      knexInstance,
+      bookmark_id
+    )
       .then(numRowsAffected => {
-        logger.info(`Bookmark with ${req.params.bookmark_id} deleted.`)
+        logger.info(`Bookmark with id ${bookmark_id} deleted.`)
         res.status(204).end()
       })
       .catch(next)
   })
-  .patch(bodyParser, (req, res, next) => {
+  .patch(jsonParser, (req, res, next) => {
     const { title, url, description, rating } = req.body
     const bookmarkToUpdate = { title, url, description, rating }
+    const { bookmark_id } = req.params
+    const knexInstance = req.app.get('db')
 
     const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length
     if(numberOfValues === 0) {
       logger.error(`Invalid update without required fields`)
       return res.status(400).json({
         error: {
-          message: `Request body must contain either 'title', 'url', 'description', or 'rating'`
+          message: `Request body must contain either 'title', 'url', 'description', 'rating'`
         }
       })
     }
+
+    const error = getBookmarkValidationError(bookmarkToUpdate)
+
+    if(error) return res.status(400).send(error)
+
+
+    BookmarksService.updateBookmark(
+      knexInstance,
+      bookmark_id,
+      bookmarkToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+
   })
 
 module.exports = bookmarksRouter;

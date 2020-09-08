@@ -7,10 +7,9 @@ const helmet = require('helmet');
 const errorHandler = require('./error-handler');
 const { NODE_ENV } = require('./config');
 const bookmarksRouter = require('./bookmarks/bookmarks-router');
-const BookmarksService = require('./bookmarks/bookmarks-service');
 
 const app = express();
-const jsonParser = express.json()
+
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
@@ -20,20 +19,7 @@ app.use(helmet());
 app.use(cors());
 // app.use(validateBearerToken);
 
-app.get('/api/bookmarks', (req, res, next) => {
-  const knexInstance = req.app.get('db')
-  BookmarksService.getAllArticles(knexInstance)
-    .then(bookmarks => {
-      res.json(bookmarks)
-    })
-    .catch(next)
-})
-app.post('/api/bookmarks', jsonParser, (req, res, next) => {
-  res.status(201).json({
-    ...req.body,
-    id: 12,
-  })
-})
+app.use('/api/bookmarks', bookmarksRouter)
 
 
 app.get('/', (req, res) => {

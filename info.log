@@ -238,3 +238,117 @@
 {"message":"Cannot read property 'from' of undefined","level":"error"}
 {"message":"Cannot read property 'select' of undefined","level":"error"}
 {"message":"Cannot read property 'from' of undefined","level":"error"}
+{"message":"bookmark is not defined","level":"error"}
+{"message":"bookmark is not defined","level":"error"}
+{"message":"error is not defined","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"title is required","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"title is required","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"title is required","level":"error"}
+{"message":"insert into \"bookmarks\" (\"description\", \"rating\", \"title\", \"url\") values (DEFAULT, $1, $2, $3) returning * - null value in column \"description\" violates not-null constraint","level":"error"}
+{"message":"url is required","level":"error"}
+{"message":"rating is required","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"title is required","level":"error"}
+{"message":"insert into \"bookmarks\" (\"description\", \"rating\", \"title\", \"url\") values (DEFAULT, $1, $2, $3) returning * - null value in column \"description\" violates not-null constraint","level":"error"}
+{"message":"url is required","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"title is required","level":"error"}
+{"message":"url is required","level":"error"}
+{"message":"rating is required","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Undefined binding(s) detected when compiling FIRST. Undefined column(s): [id] query: select * from \"bookmarks\" where \"id\" = ? limit ?","level":"error"}
+{"message":"Undefined binding(s) detected when compiling FIRST. Undefined column(s): [id] query: select * from \"bookmarks\" where \"id\" = ? limit ?","level":"error"}
+{"message":"Undefined binding(s) detected when compiling FIRST. Undefined column(s): [id] query: select * from \"bookmarks\" where \"id\" = ? limit ?","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Cannot read property 'id' of undefined","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Missing 'description' in request body","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"bookmark is not defined","level":"error"}
+{"message":"bookmark is not defined","level":"error"}
+{"message":"bookmark is not defined","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"bookmark_id is not defined","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"bookmark_id is not defined","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"bookmark_id is not defined","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"bookmark_id is not defined","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with 1 created.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"Bookmark with id 123456 not found.","level":"error"}
+{"message":"Invalid update without required fields","level":"error"}
