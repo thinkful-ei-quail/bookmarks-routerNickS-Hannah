@@ -34,6 +34,10 @@
   "directories": {
     "test": "test"
   },
+  "engines": {
+    "node": "12.18.2",
+    "npm": "6.14.5"
+  },
   "devDependencies": {
     "debug": "^4.1.1",
     "nodemon": "^2.0.4",
